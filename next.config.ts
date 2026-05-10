@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
+
+    // Fix for pdfjs-dist "canvas" not found error
+    config.externals.push({ canvas: "canvas" });
+
     return config;
   },
   // svg

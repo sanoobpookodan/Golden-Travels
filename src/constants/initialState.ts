@@ -5,9 +5,7 @@ import type {
   About,
   Spotlight,
   Blog,
-  // Course,
   Curriculum,
-  Lesson,
   CreateInstructorForm,
   CreateStudentForm,
 } from "@/types";

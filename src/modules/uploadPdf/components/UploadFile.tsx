@@ -3,6 +3,9 @@ import FileInput from "@/components/form/input/FileInput";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import * as pdfjsLib from "pdfjs-dist";
+
+// Set worker path for stable version 3.11
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 import { useState } from "react";
 
 export default function UploadFile() {
