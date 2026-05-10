@@ -11,6 +11,8 @@ export default function PdfGenerator() {
   const { flights } = useFlightStore();
   const { passengers } = usePassengerStore();
   const printRef = useRef<HTMLDivElement>(null);
+  
+  const referenceId = React.useMemo(() => `GT${Math.floor(1000000 + Math.random() * 9000000)}`, []);
 
   const handleDownloadPdf = async () => {
     const element = printRef.current;
@@ -121,7 +123,7 @@ export default function PdfGenerator() {
           }
           bookingDetails={{
             date: new Date().toLocaleDateString("en-GB", { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }),
-            referenceId: `GT${Math.floor(1000000 + Math.random() * 9000000)}`
+            referenceId: referenceId
           }}
           gstDetails={{
             name: "GOLDEN TRAVELS",

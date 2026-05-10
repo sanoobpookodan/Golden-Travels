@@ -355,7 +355,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
           <ul style={{ margin: 0, paddingLeft: "20px", fontSize: "12px", color: "#374151", lineHeight: "2" }}>
             <li>Please reach the airport 3 hours before the departure time.</li>
             <li>Check-in counters at the airport close 60 minutes before departure</li>
-            <li>Your carry-on baggage shouldn't weigh more than 7kgs</li>
+            <li>Your carry-on baggage shouldn&apos;t weigh more than 7kgs</li>
             <li>Carry photo identification, you will need it as proof of identity while checking-in</li>
             <li>Use the airline PNR for all correspondence directly with the airline.</li>
           </ul>
