@@ -11,6 +11,7 @@
     "show:files": "tree -L 4 src/app -I \"node_modules|.git|dist|public\" | pbcopy"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/forms": "^0.5.11",
     "@tiptap/extension-text-style": "^3.19.0",
     "@tiptap/react": "^3.19.0",

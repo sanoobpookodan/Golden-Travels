@@ -17,7 +17,7 @@ export default function FlightDetailsForm() {
                 <Label>From</Label>
                 <Input
                   placeholder="Enter from"
-                  value={item.from}
+                  value={item?.from || ""}
                   onChange={(e) => updateFlight(item.id, { from: e.target.value })}
                 />
               </div>
@@ -27,7 +27,7 @@ export default function FlightDetailsForm() {
                 <Label>To</Label>
                 <Input
                   placeholder="Enter to"
-                  value={item.to}
+                  value={item?.to || ""}
                   onChange={(e) => updateFlight(item.id, { to: e.target.value })}
                 />
               </div>
@@ -37,7 +37,7 @@ export default function FlightDetailsForm() {
                 <Label>Duration</Label>
                 <Input
                   placeholder="Enter Duration"
-                  value={item.duration}
+                  value={item?.duration || ""}
                   onChange={(e) => updateFlight(item.id, { duration: e.target.value })}
                 />
               </div>
@@ -47,7 +47,7 @@ export default function FlightDetailsForm() {
                 <Label>Flight Number</Label>
                 <Input
                   placeholder="Enter Flight Number"
-                  value={item.flightNumber}
+                  value={item?.flightNumber || ""}
                   onChange={(e) => updateFlight(item.id, { flightNumber: e.target.value })}
                 />
               </div>
@@ -58,7 +58,7 @@ export default function FlightDetailsForm() {
                 <Label>Baggage</Label>
                 <Input
                   placeholder="Enter Baggage"
-                  value={item.baggage.checked}
+                  value={item?.baggage?.checked || ""}
                   onChange={(e) => updateFlight(item.id, { baggage: { checked: e.target.value } })}
                 />
               </div>
@@ -68,10 +68,10 @@ export default function FlightDetailsForm() {
                 <Label>Departure Date</Label>
                 <Input
                   placeholder="Enter departure date"
-                  value={item.departure.date}
+                  value={item?.departure?.date || ""}
                   onChange={(e) =>
                     updateFlight(item.id, {
-                      departure: { ...item.departure, date: e.target.value },
+                      departure: { ...(item.departure || {}), date: e.target.value },
                     })
                   }
                 />
@@ -82,10 +82,10 @@ export default function FlightDetailsForm() {
                 <Label>Departure Time</Label>
                 <Input
                   placeholder="Enter departure time"
-                  value={item.departure.time}
+                  value={item?.departure?.time || ""}
                   onChange={(e) =>
                     updateFlight(item.id, {
-                      departure: { ...item.departure, time: e.target.value },
+                      departure: { ...(item.departure || {}), time: e.target.value },
                     })
                   }
                 />
@@ -96,10 +96,10 @@ export default function FlightDetailsForm() {
                 <Label>Arrival Date</Label>
                 <Input
                   placeholder="Enter arrival date"
-                  value={item.arrival.date}
+                  value={item?.arrival?.date || ""}
                   onChange={(e) =>
                     updateFlight(item.id, {
-                      departure: { ...item.departure, date: e.target.value },
+                      arrival: { ...(item.arrival || {}), date: e.target.value },
                     })
                   }
                 />
@@ -110,10 +110,10 @@ export default function FlightDetailsForm() {
                 <Label>Arrival Time</Label>
                 <Input
                   placeholder="Enter arrival time"
-                  value={item.arrival.time}
+                  value={item?.arrival?.time || ""}
                   onChange={(e) =>
                     updateFlight(item.id, {
-                      departure: { ...item.departure, time: e.target.value },
+                      arrival: { ...(item.arrival || {}), time: e.target.value },
                     })
                   }
                 />

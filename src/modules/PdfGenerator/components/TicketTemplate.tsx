@@ -12,46 +12,13 @@ interface TicketTemplateProps {
 const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
   ({ passengers, flights, bookingDetails, gstDetails, fareDetails }, ref) => {
 
-    const defaultPassengers = [
-      {
-        name: "Mr.Ameen Razil Chelappilly Noushad",
-        ticketNo: "A74C7Z",
-        seat: "Not selected",
-        meal: "Not selected",
-        baggage: "15 Kg",
-        handBaggage: "7kg",
-      },
-    ];
+    const defaultPassengers: any[] = [];
 
-    const defaultFlights = [
-      {
-        flightNumber: "6E-738",
-        airline: "IndiGo",
-        from: "Kochi",
-        fromCode: "COK",
-        to: "Bangalore",
-        toCode: "BLR",
-        departure: {
-          time: "16:20",
-          date: "Fri, 17 Apr, 2026",
-          airport: "Kochi Arpt",
-          terminal: "Terminal 1",
-        },
-        arrival: {
-          time: "17:35",
-          date: "Fri, 17 Apr, 2026",
-          airport: "Bengaluru Arpt",
-          terminal: "Terminal 1",
-        },
-        duration: "1h 15m",
-        pnr: "A74C7Z",
-        cabinClass: "Economy",
-      },
-    ];
+    const defaultFlights: any[] = [];
 
     const defaultBookingDetails = {
-      date: "Wed, 08 Apr, 2026",
-      referenceId: "CT1226387",
+      date: "",
+      referenceId: "",
     };
 
     const defaultGstDetails = {
@@ -63,10 +30,10 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
     };
 
     const defaultFareDetails = {
-      base: "2,533.00",
-      tax: "1,092.70",
-      misc: "1,600.00",
-      total: "5,225.70",
+      base: "0.00",
+      tax: "0.00",
+      misc: "0.00",
+      total: "0.00",
     };
 
     const resolvedPassengers = passengers?.length ? passengers : defaultPassengers;

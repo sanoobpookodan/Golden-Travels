@@ -6,10 +6,12 @@ import TicketTemplate from "./TicketTemplate";
 import Button from "@/components/ui/button/Button";
 import { useFlightStore } from "@/store/useFlightStore";
 import { usePassengerStore } from "@/store/usePassengerStore";
+import { useFareStore } from "@/store/useFareStore";
 
 export default function PdfGenerator() {
   const { flights } = useFlightStore();
   const { passengers } = usePassengerStore();
+  const { fare } = useFareStore();
   const printRef = useRef<HTMLDivElement>(null);
   
   const referenceId = React.useMemo(() => `GT${Math.floor(1000000 + Math.random() * 9000000)}`, []);
@@ -93,19 +95,7 @@ export default function PdfGenerator() {
                 pnr: f.pnr || "A74C7Z",
                 cabinClass: f.fareType || "Economy"
               }))
-            : [{
-                airline: "Indigo",
-                flightNumber: "6E-2124",
-                from: "Kochi",
-                fromCode: "COK",
-                to: "Bangalore",
-                toCode: "BLR",
-                departure: { time: "10:30", date: "Wed, 08 Apr, 2026", airport: "Cochin International Airport", terminal: "T1" },
-                arrival: { time: "11:45", date: "Wed, 08 Apr, 2026", airport: "Kempegowda Int'l Airport", terminal: "T2" },
-                duration: "1h 15m",
-                pnr: "A74C7Z",
-                cabinClass: "Economy"
-              }]
+            : []
           }
           passengers={passengers.length > 0 
             ? passengers.map((p: any) => ({
@@ -114,12 +104,7 @@ export default function PdfGenerator() {
                 baggage: p.baggage || "15 Kg",
                 handBaggage: p.handBaggage || "7kg"
               }))
-            : [{
-                name: "MR. GUEST PASSENGER",
-                ticketNo: "6E-226387",
-                baggage: "15 Kg",
-                handBaggage: "7kg"
-              }]
+            : []
           }
           bookingDetails={{
             date: new Date().toLocaleDateString("en-GB", { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }),
@@ -132,12 +117,7 @@ export default function PdfGenerator() {
             email: "MKFAHIZ@GMAIL.COM",
             phone: "8089794927"
           }}
-          fareDetails={{
-            base: "2,533.00",
-            tax: "1,092.70",
-            misc: "1,600.00",
-            total: "5,225.70"
-          }}
+          fareDetails={fare}
         />
       </div>
       

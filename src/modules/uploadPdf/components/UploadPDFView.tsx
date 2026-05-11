@@ -11,20 +11,27 @@ import UploadFile from "./UploadFile";
 import { IS_DEV } from "@/constants/data";
 
 import PdfGenerator from "../../PdfGenerator/components/PdfGenerator";
+import AIProcessing from "../../ai-extraction/components/AIProcessing";
 
 export default function UploadPDFView() {
   const { setPassengers } = usePassengerStore();
   const { setFlights } = useFlightStore();
 
   useEffect(() => {
-    setPassengers(IS_DEV ? passengerDetails : []);
-    setFlights(IS_DEV ? flightDetails : []);
+    // Start with empty stores so only real extracted data is shown
+    setPassengers([]);
+    setFlights([]);
   }, []);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <ComponentCard className="xl:col-span-3 sm:col-span-3" title={"PDFs Management"}>
-        <UploadFile />
+        <div className="mb-6">
+          <AIProcessing />
+        </div>
+        <div className="border-t pt-6">
+          <UploadFile />
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start mt-6">
           <PassengerDetailsForm />
           <FlightDetailsForm />
