@@ -13,17 +13,26 @@ export default function PdfGenerator() {
   const { passengers } = usePassengerStore();
   const { fare } = useFareStore();
   const printRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   
   const referenceId = React.useMemo(() => `GT${Math.floor(1000000 + Math.random() * 9000000)}`, []);
 
   const handleDownloadPdf = async () => {
     const element = printRef.current;
+    const headerEl = headerRef.current;
     if (!element) return;
 
     try {
-      const imgData = await domToPng(element, {
-        scale: 2,
-      });
+      // Capture full ticket content
+      const imgData = await domToPng(element, { scale: 2 });
+
+      // Capture header separately (for repeating on subsequent pages)
+      let headerImgData: string | null = null;
+      let headerHeightMm = 0;
+      if (headerEl) {
+        headerImgData = await domToPng(headerEl, { scale: 2 });
+        headerHeightMm = (headerEl.offsetHeight * (190 / element.offsetWidth));
+      }
 
       const pdf = new jsPDF({
         orientation: "portrait",
@@ -31,32 +40,75 @@ export default function PdfGenerator() {
         format: "a4",
       });
 
-      const pageWidth = 210;
-      const pageHeight = 297;
-      const margin = 10; // 10mm margin
-      const imgWidth = pageWidth - (margin * 2);
-      const imgHeight = (element.offsetHeight * imgWidth) / element.offsetWidth;
+      const pageWidth   = 210;
+      const pageHeight  = 297;
+      const margin      = 10;
+      const headerGap   = 4; // gap between header and content on pages 2+
+      const imgWidth    = pageWidth - margin * 2;
+      const imgHeight   = (element.offsetHeight * imgWidth) / element.offsetWidth;
 
-      let heightLeft = imgHeight;
-      let position = margin; // Start with top margin
+      // Page 1: full usable area (no repeated header)
+      const page1Usable = pageHeight - margin * 2;
 
-      // Add the first page
-      pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
-      heightLeft -= (pageHeight - (margin * 2));
+      // Pages 2+: less space because header takes the top
+      const pageNUsable = page1Usable - headerHeightMm - headerGap;
 
-      // If content is longer than one page, add more pages
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight + margin;
+      // ── Page 1 ──
+      pdf.addImage(imgData, "PNG", margin, margin, imgWidth, imgHeight);
+
+      // ── Calculate total pages needed ──
+      // Page 1 shows [0 .. page1Usable] of content
+      // Page 2 shows [page1Usable .. page1Usable + pageNUsable], etc.
+      let contentConsumed = page1Usable;
+      let page = 2;
+      while (contentConsumed < imgHeight) {
         pdf.addPage();
-        pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
-        heightLeft -= (pageHeight - (margin * 2));
+
+        // Stamp the header at the top
+        if (headerImgData) {
+          pdf.addImage(headerImgData, "PNG", margin, margin, imgWidth, headerHeightMm);
+        }
+
+        // Where content starts on this page (below header)
+        const contentStartY = margin + headerHeightMm + headerGap;
+
+        // imgY: position the image so the correct slice appears at contentStartY
+        // The image has already scrolled by `contentConsumed` mm
+        const imgY = contentStartY - contentConsumed;
+        pdf.addImage(imgData, "PNG", margin, imgY, imgWidth, imgHeight);
+
+        contentConsumed += pageNUsable;
+        page++;
       }
 
-      pdf.save(`Ticket_${flights[0]?.flightNumber || "Booking"}.pdf`);
+      // Build a clean filename from passenger names
+      const buildFilename = () => {
+        const cleanName = (name: string) =>
+          name.trim().replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_]/g, "");
+
+        if (passengers.length === 0) {
+          return `Ticket_${flights[0]?.flightNumber || "Booking"}`;
+        }
+
+        if (passengers.length === 1) {
+          return `${cleanName(passengers[0].name) || "Passenger"}_ETicket`;
+        }
+
+        const firstName  = cleanName(passengers[0].name) || "Passengers";
+        const extraCount = passengers.length - 1;
+        const depDate    = (flights[0]?.departure?.date || "")
+          .replace(/,/g, "").replace(/\s+/g, "_");
+        return depDate
+          ? `${firstName}_and_${extraCount}_more_${depDate}`
+          : `${firstName}_and_${extraCount}_more`;
+      };
+
+      pdf.save(`${buildFilename()}.pdf`);
     } catch (error) {
       console.error("PDF Generation Error:", error);
     }
   };
+
 
   return (
     <div className="mt-8">
@@ -70,9 +122,10 @@ export default function PdfGenerator() {
         </Button>
       </div>
 
-      <div className="overflow-hidden h-0 w-0 opacity-0 pointer-events-none">
+      <div style={{ position: "fixed", left: "-9999px", top: "-9999px", zIndex: -1, pointerEvents: "none" }}>
         <TicketTemplate
           ref={printRef}
+          headerRef={headerRef}
           flights={flights.length > 0 
             ? flights.map((f: any) => ({
                 airline: f.airline || "Airline",

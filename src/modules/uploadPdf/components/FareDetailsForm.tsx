@@ -1,0 +1,86 @@
+"use client";
+import { useEffect } from "react";
+import ComponentCard from "@/components/common/ComponentCard";
+import Input from "@/components/form/input/InputField";
+import Label from "@/components/form/Label";
+import { useFareStore } from "@/store/useFareStore";
+
+export default function FareDetailsForm() {
+  const { fare, setFare } = useFareStore();
+
+  // Auto-calculate total whenever base, tax, or misc changes
+  useEffect(() => {
+    const base = parseFloat(fare.base) || 0;
+    const tax  = parseFloat(fare.tax)  || 0;
+    const misc = parseFloat(fare.misc) || 0;
+    const total = (base + tax + misc).toFixed(2);
+    if (total !== fare.total) {
+      setFare({ ...fare, total });
+    }
+  }, [fare.base, fare.tax, fare.misc]);
+
+  const handleChange = (field: "base" | "tax" | "misc", value: string) => {
+    setFare({ ...fare, [field]: value });
+  };
+
+  return (
+    <ComponentCard childClassName="space-y-4" title="Fare Details">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label>Base Price (INR)</Label>
+          <Input
+            placeholder="e.g. 5000.00"
+            value={fare.base}
+            onChange={(e) => handleChange("base", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <Label>Airline Taxes &amp; Fees (INR)</Label>
+          <Input
+            placeholder="e.g. 1200.00"
+            value={fare.tax}
+            onChange={(e) => handleChange("tax", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <Label>Misc Charges (INR)</Label>
+          <Input
+            placeholder="e.g. 200.00"
+            value={fare.misc}
+            onChange={(e) => handleChange("misc", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <Label>
+            Total Amount (INR)
+            <span className="ml-1.5 text-xs font-normal text-brand-500">
+              (auto-calculated)
+            </span>
+          </Label>
+          <div className="relative">
+            <Input
+              placeholder="0.00"
+              value={fare.total}
+              className="bg-gray-50 dark:bg-white/[0.03] text-gray-700 dark:text-white/70 font-semibold cursor-not-allowed"
+            />
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
+              INR
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-lg flex items-center justify-between">
+        <p className="text-xs text-blue-500 dark:text-blue-400">
+          Total = Base + Taxes + Misc — reflected in the generated PDF.
+        </p>
+        <p className="text-sm text-blue-700 dark:text-blue-300 font-bold whitespace-nowrap ml-4">
+          INR {fare.total || "0.00"}
+        </p>
+      </div>
+    </ComponentCard>
+  );
+}

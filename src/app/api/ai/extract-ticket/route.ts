@@ -1,10 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 
-const GOOGLE_GENERATIVE_AI_API_KEY = "AIzaSyB_gDOGEkCJL3wpoCHleKNKMJYkSdvb5t4";
 
 const genAI = new GoogleGenerativeAI(
-  GOOGLE_GENERATIVE_AI_API_KEY
+  process.env.GOOGLE_GENERATIVE_AI_API_KEY
 );
 
 export async function POST(req: NextRequest) {

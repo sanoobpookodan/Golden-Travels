@@ -7,10 +7,11 @@ interface TicketTemplateProps {
   bookingDetails: any;
   gstDetails: any;
   fareDetails: any;
+  headerRef?: React.Ref<HTMLDivElement>;
 }
 
 const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
-  ({ passengers, flights, bookingDetails, gstDetails, fareDetails }, ref) => {
+  ({ passengers, flights, bookingDetails, gstDetails, fareDetails, headerRef }, ref) => {
 
     const defaultPassengers: any[] = [];
 
@@ -58,50 +59,55 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
         id="ticket-template"
       >
 
-        {/* ── Centered E-Ticket heading — matches PDF ── */}
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <h1 style={{ fontSize: "30px", fontWeight: "600", letterSpacing: "-0.5px", margin: 0 }}>
-            E-Ticket
-          </h1>
-        </div>
+        {/* ── REPEATABLE HEADER — captured separately for multi-page PDF ── */}
+        <div ref={headerRef}>
 
-        {/* ── Logo (left) + Agency info (right) ── */}
-        <div style={{
-          display: "flex", justifyContent: "space-between",
-          alignItems: "flex-start", marginBottom: "18px",
-        }}>
-          <div style={{ width: "90px", height: "90px", flexShrink: 0 }}>
-            <img
-              src="/assets/images/logo.png"
-              alt="Golden Travels Logo"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
+          {/* ── Centered E-Ticket heading ── */}
+          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+            <h1 style={{ fontSize: "30px", fontWeight: "600", letterSpacing: "-0.5px", margin: 0 }}>
+              E-Ticket
+            </h1>
           </div>
 
-          <div style={{ textAlign: "right", fontSize: "13px", lineHeight: "1.6" }}>
-            <p style={{ margin: 0, fontWeight: "700", fontSize: "15px" }}>Golden Traveler</p>
-            <p style={{ margin: 0, color: "#374151" }}>mkfahiz@gmail.com</p>
-            <p style={{ margin: 0, color: "#374151" }}>+91 8089794927</p>
-            <p style={{ margin: 0, color: "#374151" }}>MANJERI ROAD, KIZHISSERI, MALAPPURAM</p>
-            <p style={{ margin: 0, color: "#374151" }}>Malappuram-673641</p>
-          </div>
-        </div>
+          {/* ── Logo (left) + Agency info (right) ── */}
+          <div style={{
+            display: "flex", justifyContent: "space-between",
+            alignItems: "flex-start", marginBottom: "18px",
+          }}>
+            <div style={{ width: "90px", height: "90px", flexShrink: 0 }}>
+              <img
+                src="/assets/images/logo.png"
+                alt="Golden Travels Logo"
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
+            </div>
 
-        {/* ── Booking meta ── */}
-        <div style={{
-          display: "flex", justifyContent: "flex-end", gap: "28px",
-          fontSize: "13px", borderBottom: "1px solid #e5e7eb",
-          paddingBottom: "12px", marginBottom: "24px",
-        }}>
-          <p style={{ margin: 0 }}>
-            <span style={{ color: "#374151" }}>Booking date </span>
-            <strong>{resolvedBooking.date}</strong>
-          </p>
-          <p style={{ margin: 0 }}>
-            <span style={{ color: "#374151" }}>Reference ID </span>
-            <strong>{resolvedBooking.referenceId}</strong>
-          </p>
-        </div>
+            <div style={{ textAlign: "right", fontSize: "13px", lineHeight: "1.6" }}>
+              <p style={{ margin: 0, fontWeight: "700", fontSize: "15px" }}>Golden Traveler</p>
+              <p style={{ margin: 0, color: "#374151" }}>mkfahiz@gmail.com</p>
+              <p style={{ margin: 0, color: "#374151" }}>+91 8089794927</p>
+              <p style={{ margin: 0, color: "#374151" }}>MANJERI ROAD, KIZHISSERI, MALAPPURAM</p>
+              <p style={{ margin: 0, color: "#374151" }}>Malappuram-673641</p>
+            </div>
+          </div>
+
+          {/* ── Booking meta ── */}
+          <div style={{
+            display: "flex", justifyContent: "flex-end", gap: "28px",
+            fontSize: "13px", borderBottom: "1px solid #e5e7eb",
+            paddingBottom: "12px", marginBottom: "24px",
+          }}>
+            <p style={{ margin: 0 }}>
+              <span style={{ color: "#374151" }}>Booking date </span>
+              <strong>{resolvedBooking.date}</strong>
+            </p>
+            <p style={{ margin: 0 }}>
+              <span style={{ color: "#374151" }}>Reference ID </span>
+              <strong>{resolvedBooking.referenceId}</strong>
+            </p>
+          </div>
+
+        </div>{/* end headerRef */}
 
         {/* ── Flights ── */}
         {resolvedFlights.map((flight, idx) => (
