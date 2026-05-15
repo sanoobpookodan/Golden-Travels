@@ -1,12 +1,20 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
-import { GOOGLE_GENERATIVE_AI_API_KEY } from "@/constants/data";
 
-
-const genAI = new GoogleGenerativeAI(GOOGLE_GENERATIVE_AI_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+    if (!apiKey) {
+      console.error("AI Extraction Error: GOOGLE_GENERATIVE_AI_API_KEY is not defined");
+      return NextResponse.json(
+        { error: "API configuration missing. Please check server logs." },
+        { status: 500 }
+      );
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
     const formData = await req.formData();
 
     const file = formData.get("file") as File;

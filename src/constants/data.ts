@@ -30,4 +30,3 @@ export const gst_detail = {
 };
 
 
-export const GOOGLE_GENERATIVE_AI_API_KEY='AIzaSyB_gDOGEkCJL3wpoCHleKNKMJYkSdvb5t4'

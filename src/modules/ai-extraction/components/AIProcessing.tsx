@@ -66,21 +66,46 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
       const data = await response.json();
 
       if (data.flights) {
-        setFlights(data.flights.map((f: any) => ({
-          ...f,
-          id: crypto.randomUUID(),
-        })));
+        setFlights(
+          data.flights.map((f: any) => ({
+            ...f,
+            id: crypto.randomUUID(),
+            from: f.from ?? "",
+            to: f.to ?? "",
+            airline: f.airline ?? "",
+            flightNumber: f.flightNumber ?? "",
+            departure: {
+              date: f.departure?.date ?? "",
+              time: f.departure?.time ?? "",
+              airport: f.departure?.airport ?? "",
+            },
+            arrival: {
+              date: f.arrival?.date ?? "",
+              time: f.arrival?.time ?? "",
+              airport: f.arrival?.airport ?? "",
+            },
+          }))
+        );
       }
 
       if (data.passengers) {
-        setPassengers(data.passengers.map((p: any) => ({
-          ...p,
-          id: Date.now() + Math.random(),
-        })));
+        setPassengers(
+          data.passengers.map((p: any) => ({
+            ...p,
+            id: Date.now() + Math.random(),
+            name: p.name ?? "",
+            ticketNo: p.ticketNo ?? "",
+          }))
+        );
       }
 
       if (data.fare) {
-        setFare(data.fare);
+        setFare({
+          base: data.fare.base ?? "0.00",
+          tax: data.fare.tax ?? "0.00",
+          misc: data.fare.misc ?? "0.00",
+          total: data.fare.total ?? "0.00",
+        });
       }
 
       toast.success("Ticket data extracted successfully!", { id: loadingToast });

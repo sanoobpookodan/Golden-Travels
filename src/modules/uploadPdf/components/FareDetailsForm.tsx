@@ -64,6 +64,7 @@ export default function FareDetailsForm() {
             <Input
               placeholder="0.00"
               value={fare.total}
+              readOnly
               className="bg-gray-50 dark:bg-white/[0.03] text-gray-700 dark:text-white/70 font-semibold cursor-not-allowed"
             />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
