@@ -19,7 +19,7 @@ export default function FareDetailsForm() {
     }
   }, [fare.base, fare.tax, fare.misc]);
 
-  const handleChange = (field: "base" | "tax" | "misc", value: string) => {
+  const handleChange = (field: "base" | "tax" | "misc" | "total", value: string) => {
     setFare({ ...fare, [field]: value });
   };
 
@@ -64,8 +64,8 @@ export default function FareDetailsForm() {
             <Input
               placeholder="0.00"
               value={fare.total}
-              readOnly
-              className="bg-gray-50 dark:bg-white/[0.03] text-gray-700 dark:text-white/70 font-semibold cursor-not-allowed"
+              onChange={(e) => handleChange("total", e.target.value)}
+              className="text-gray-800 dark:text-white font-semibold"
             />
             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
               INR
