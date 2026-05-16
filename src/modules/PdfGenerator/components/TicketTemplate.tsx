@@ -77,6 +77,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
               <img
                 src="/assets/images/logo.png"
                 alt="Golden Travels Logo"
+                crossOrigin="anonymous"
                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
             </div>
