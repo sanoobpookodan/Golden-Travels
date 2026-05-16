@@ -10,10 +10,12 @@ export default function FareDetailsForm() {
 
   // Auto-calculate total whenever base, tax, or misc changes
   useEffect(() => {
-    const base = parseFloat(fare.base) || 0;
-    const tax  = parseFloat(fare.tax)  || 0;
-    const misc = parseFloat(fare.misc) || 0;
-    const total = (base + tax + misc).toFixed(2);
+    // Strip commas before parsing to handle values like "26,300"
+    const base = parseFloat(fare.base?.toString().replace(/,/g, "")) || 0;
+    const tax  = parseFloat(fare.tax?.toString().replace(/,/g, ""))  || 0;
+    const misc = parseFloat(fare.misc?.toString().replace(/,/g, "")) || 0;
+    const total = (base + tax + misc).toLocaleString("en-IN", { minimumFractionDigits: 2 });
+    
     if (total !== fare.total) {
       setFare({ ...fare, total });
     }
