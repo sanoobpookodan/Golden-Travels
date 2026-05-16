@@ -95,6 +95,8 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
             id: Date.now() + Math.random(),
             name: p.name ?? "",
             ticketNo: p.ticketNo ?? "",
+            baggage: p.baggage ?? "Kg",
+            handBaggage: p.handBaggage ?? "Kg",
           }))
         );
       }

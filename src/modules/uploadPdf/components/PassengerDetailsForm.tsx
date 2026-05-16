@@ -11,27 +11,46 @@ export default function PassengerDetailsForm() {
     <ComponentCard childClassName="space-y-1 " title="Passenger Details">
       <div className="space-y-3">
         {passengers.map((item, index) => (
-          <div className="grid grid-cols-2 gap-2" key={index}>
-            <div className="xl:col-span-1 ">
-              <div>
-                <Label>Passenger -{index + 1}</Label>
-                <Input
-                  placeholder="Enter passenger name"
-                  value={item.name}
-                  onChange={(e) => updatePassenger(item.id, { name: e.target.value })}
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 pb-3 border-b border-gray-100 dark:border-gray-800 last:border-0" key={index}>
+            <div className="md:col-span-4">
+              <Label>Passenger {index + 1}</Label>
+              <Input
+                placeholder="Name"
+                value={item.name}
+                onChange={(e) => updatePassenger(item.id, { name: e.target.value })}
+              />
             </div>
-            <div className="xl:col-span-1 flex items-end gap-2">
-              <div>
-                <Label>Ticket Number</Label>
-                <Input
-                  placeholder="Enter ticket number"
-                  value={item.ticketNo}
-                  onChange={(e) => updatePassenger(item.id, { ticketNo: e.target.value })}
-                />
-              </div>
-              <Button onClick={() => removePassenger(item.id)}>-</Button>
+            <div className="md:col-span-3">
+              <Label>Ticket No</Label>
+              <Input
+                placeholder="Ticket No"
+                value={item.ticketNo}
+                onChange={(e) => updatePassenger(item.id, { ticketNo: e.target.value })}
+              />
+            </div>
+            <div className="md:col-span-2">
+              <Label>Check-in</Label>
+              <Input
+                placeholder="e.g. 15 Kg"
+                value={item.baggage}
+                onChange={(e) => updatePassenger(item.id, { baggage: e.target.value })}
+              />
+            </div>
+            <div className="md:col-span-2">
+              <Label>Hand Bag</Label>
+              <Input
+                placeholder="e.g. 7 Kg"
+                value={item.handBaggage}
+                onChange={(e) => updatePassenger(item.id, { handBaggage: e.target.value })}
+              />
+            </div>
+            <div className="md:col-span-1 flex items-end">
+              <Button 
+                onClick={() => removePassenger(item.id)} 
+                className="w-full bg-red-500 hover:bg-red-600 text-white p-2.5 h-11"
+              >
+                -
+              </Button>
             </div>
           </div>
         ))}

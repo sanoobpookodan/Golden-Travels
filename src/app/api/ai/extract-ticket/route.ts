@@ -50,7 +50,9 @@ Schema:
   "passengers": [
     {
       "name": "Full name",
-      "ticketNo": "Ticket/e-ticket number"
+      "ticketNo": "Ticket/e-ticket number",
+      "baggage": "Check-in baggage limit (e.g. 15 Kg)",
+      "handBaggage": "Hand/Cabin baggage limit (e.g. 7 Kg)"
     }
   ],
 

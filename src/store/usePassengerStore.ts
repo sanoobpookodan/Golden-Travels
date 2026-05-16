@@ -3,6 +3,8 @@ import { create } from "zustand";
 export interface PassengerDetails {
   name: string;
   ticketNo: string;
+  baggage?: string;
+  handBaggage?: string;
   id: number;
 }
 

@@ -247,9 +247,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
                   <td style={{ padding: "12px 6px" }}>{p.meal}</td>
                   <td style={{ padding: "12px 6px" }}>
                     <span style={{ fontWeight: "700" }}>{p.baggage}</span>
-                    <div style={{ color: "#374151", fontSize: "10px", marginTop: "2px" }}>
-                      +INTL Connection Baggage 8 Kg
-                    </div>
+                   
                   </td>
                   <td style={{ padding: "12px 6px", fontWeight: "700" }}>{p.handBaggage}</td>
                 </tr>
