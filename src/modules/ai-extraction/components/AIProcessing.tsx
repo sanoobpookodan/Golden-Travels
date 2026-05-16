@@ -120,6 +120,8 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
     }
   };
 
+  const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -127,6 +129,13 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
     if (file.type !== "application/pdf") {
       setErrorMsg("Please upload a valid PDF file.");
       toast.error("Please upload a PDF file");
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      setErrorMsg(`File is too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Please upload a PDF under 15MB.`);
+      setSelectedFile(file); // still store it to show the error
+      toast.error("File exceeds 15MB limit");
       return;
     }
 
@@ -143,7 +152,7 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
   };
 
   const handleRetry = async () => {
-    if (!selectedFile) return;
+    if (!selectedFile || selectedFile.size > MAX_FILE_SIZE) return;
     await processFile(selectedFile);
   };
 
@@ -154,6 +163,8 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
     setShowPreview(false);
     setErrorMsg(null);
   };
+
+  const isFileTooLarge = selectedFile && selectedFile.size > MAX_FILE_SIZE;
 
   return (
     <div className="space-y-3">
@@ -196,8 +207,8 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
           {/* Action buttons */}
           <div className="flex items-center gap-2 flex-shrink-0">
 
-            {/* Preview toggle — only shown when a file is loaded */}
-            {selectedFile && previewUrl && (
+            {/* Preview toggle — only shown when a file is loaded and valid */}
+            {selectedFile && previewUrl && !isFileTooLarge && (
               <button
                 onClick={() => setShowPreview((v) => !v)}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
@@ -210,8 +221,8 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
               </button>
             )}
 
-            {/* Retry — only shown when there's a failed attempt with a stored file */}
-            {selectedFile && errorMsg && (
+            {/* Retry — only shown when there's a failed attempt with a valid file */}
+            {selectedFile && errorMsg && !isFileTooLarge && (
               <button
                 onClick={handleRetry}
                 disabled={isProcessing}
@@ -252,8 +263,8 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
                 htmlFor="ai-pdf-upload"
                 className={`
                   flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer
-                  ${isProcessing
-                    ? "bg-gray-100 text-gray-400 dark:bg-white/5 cursor-not-allowed"
+                  ${isProcessing || isFileTooLarge
+                    ? "bg-gray-100 text-gray-400 dark:bg-white/5 cursor-not-allowed border border-gray-200 dark:border-gray-800"
                     : "bg-brand-500 text-white hover:bg-brand-600 shadow-md active:scale-95"}
                 `}
               >
@@ -270,7 +281,7 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                    {selectedFile ? "Change PDF" : "Extract PDF"}
+                    {isFileTooLarge ? "Limit Exceeded" : selectedFile ? "Change PDF" : "Extract PDF"}
                   </>
                 )}
               </label>

@@ -33,11 +33,11 @@ export default function PdfGenerator() {
         format: "a4",
       });
 
-      const pageWidth  = 210;
+      const pageWidth = 210;
       const pageHeight = 297;
-      const margin     = 10;
+      const margin = 10;
       const innerWidth = pageWidth - margin * 2;
-      const headerGap  = 4;
+      const headerGap = 4;
 
       // 2. Capture header once
       const headerImg = await domToPng(headerEl, { scale: 2 });

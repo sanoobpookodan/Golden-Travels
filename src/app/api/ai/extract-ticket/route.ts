@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
 
     const buffer = Buffer.from(bytes);
+    console.log(`Sending PDF to AI... Size: ${(buffer.length / 1024).toFixed(2)} KB`);
 
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash",
