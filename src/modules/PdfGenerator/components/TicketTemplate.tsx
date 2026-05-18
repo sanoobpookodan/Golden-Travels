@@ -83,7 +83,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
             </div>
 
             <div style={{ textAlign: "right", fontSize: "13px", lineHeight: "1.6" }}>
-              <p style={{ margin: 0, fontWeight: "700", fontSize: "15px" }}>Golden Traveler</p>
+              <p style={{ margin: 0, fontWeight: "700", fontSize: "15px" }}>Golden Travels</p>
               <p style={{ margin: 0, color: "#374151" }}>mkfahiz@gmail.com</p>
               <p style={{ margin: 0, color: "#374151" }}>+91 8089794927</p>
               <p style={{ margin: 0, color: "#374151" }}>MANJERI ROAD, KIZHISSERI, MALAPPURAM</p>
@@ -100,10 +100,6 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
             <p style={{ margin: 0 }}>
               <span style={{ color: "#374151" }}>Booking date </span>
               <strong>{resolvedBooking.date}</strong>
-            </p>
-            <p style={{ margin: 0 }}>
-              <span style={{ color: "#374151" }}>Reference ID </span>
-              <strong>{resolvedBooking.referenceId}</strong>
             </p>
           </div>
 
@@ -123,7 +119,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
               fontSize: "14px", fontWeight: "700",
               marginBottom: "16px",
             }}>
-              <span>{flight.from}({flight.fromCode}) - {flight.to}({flight.toCode})</span>
+              <span>{flight.from} {flight.fromCode} - {flight.to} {flight.toCode}</span>
               <span>Airline PNR {flight.pnr}</span>
             </div>
 
@@ -137,25 +133,20 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
                 <p style={{ margin: "0 0 4px", color: "#374151", fontSize: "12px", fontWeight: "600" }}>Flight</p>
                 <p style={{ margin: "0 0 6px", fontWeight: "700", fontSize: "15px" }}>{flight.flightNumber}</p>
                 <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                  <span style={{
-                    backgroundColor: "#2563eb", color: "#fff",
-                    fontSize: "10px", padding: "1px 5px", borderRadius: "3px",
-                    fontWeight: "600", letterSpacing: "0.3px",
-                  }}>Indigo</span>
                   <span style={{ color: "#374151", fontSize: "11px" }}>{flight.airline}</span>
                 </div>
               </div>
 
               <div>
                 <p style={{ margin: "0 0 4px", color: "#374151", fontSize: "12px", fontWeight: "600" }}>Departure</p>
-                <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "15px" }}>{flight.from}({flight.fromCode})</p>
+                <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "15px" }}>{flight.from} {flight.fromCode}</p>
                 <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "12px" }}>{flight.departure.date} {flight.departure.time}</p>
                 <p style={{ margin: 0, color: "#374151", fontSize: "11px" }}>{flight.departure.airport} {flight.departure.terminal}</p>
               </div>
 
               <div>
                 <p style={{ margin: "0 0 4px", color: "#374151", fontSize: "12px", fontWeight: "600" }}>Arrival</p>
-                <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "15px" }}>{flight.to}({flight.toCode})</p>
+                <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "15px" }}>{flight.to} {flight.toCode}</p>
                 <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "12px" }}>{flight.arrival.date} {flight.arrival.time}</p>
                 <p style={{ margin: 0, color: "#374151", fontSize: "11px" }}>{flight.arrival.airport} {flight.arrival.terminal}</p>
               </div>

@@ -43,7 +43,7 @@ export default function UploadPDFView() {
         
         {/* PDF Generator Component */}
         <div className="mt-8 border-t pt-8">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Finalize & Generate Ticket</h3>
+            <h3 className="text-xl font-bold text-gray-100 mb-4">Finalize & Generate Ticket</h3>
             <PdfGenerator />
         </div>
       </ComponentCard>
