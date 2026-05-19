@@ -13,7 +13,7 @@ interface BookingStore {
 
 export const useBookingStore = create<BookingStore>((set) => ({
   booking: {
-    pnr: "A74C7Z",
+    pnr: "",
     bookingDate: new Date().toLocaleDateString("en-GB", {
       weekday: "short",
       day: "2-digit",
