@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useFlightStore } from "@/store/useFlightStore";
 import { usePassengerStore } from "@/store/usePassengerStore";
 import { useFareStore } from "@/store/useFareStore";
+import { useBookingStore } from "@/store/useBookingStore";
 import toast from "react-hot-toast";
 
 interface AIProcessingProps {
@@ -32,6 +33,7 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
   const { setFlights } = useFlightStore();
   const { setPassengers } = usePassengerStore();
   const { setFare } = useFareStore();
+  const { setBooking } = useBookingStore();
 
   // Clean up blob URL on unmount or file change
   useEffect(() => {
@@ -109,6 +111,13 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
           total: data.fare.total ?? "0.00",
         });
       }
+
+      const extractedPnr = data.pnr ?? data.flights?.[0]?.pnr ?? "";
+      const extractedBookingDate = data.bookingDate ?? new Date().toLocaleDateString("en-GB", { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+      setBooking({
+        pnr: extractedPnr,
+        bookingDate: extractedBookingDate,
+      });
 
       toast.success("Ticket data extracted successfully!", { id: loadingToast });
       if (onSuccess) onSuccess();

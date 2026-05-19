@@ -47,6 +47,8 @@ Return ONLY valid JSON.
 Schema:
 
 {
+  "bookingDate": "Booking date/time (e.g. Day, DD Mon, YYYY or similar issue date found in the ticket)",
+  "pnr": "Airline PNR / Booking Reference / Record Locator (usually a 6-character alphanumeric code like AM48QZ or similar)",
   "passengers": [
     {
       "name": "Full name",

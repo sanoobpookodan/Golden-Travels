@@ -8,9 +8,7 @@ import { useFareStore } from "@/store/useFareStore";
 export default function FareDetailsForm() {
   const { fare, setFare } = useFareStore();
 
-  // Auto-calculate total whenever base, tax, or misc changes
   useEffect(() => {
-    // Strip commas before parsing to handle values like "26,300"
     const base = parseFloat(fare.base?.toString().replace(/,/g, "")) || 0;
     const tax  = parseFloat(fare.tax?.toString().replace(/,/g, ""))  || 0;
     const misc = parseFloat(fare.misc?.toString().replace(/,/g, "")) || 0;

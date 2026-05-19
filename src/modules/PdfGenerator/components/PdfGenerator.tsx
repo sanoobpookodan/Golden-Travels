@@ -7,11 +7,13 @@ import Button from "@/components/ui/button/Button";
 import { useFlightStore } from "@/store/useFlightStore";
 import { usePassengerStore } from "@/store/usePassengerStore";
 import { useFareStore } from "@/store/useFareStore";
+import { useBookingStore } from "@/store/useBookingStore";
 
 export default function PdfGenerator() {
   const { flights } = useFlightStore();
   const { passengers } = usePassengerStore();
   const { fare } = useFareStore();
+  const { booking } = useBookingStore();
   const printRef = useRef<HTMLDivElement>(null);
 
   const referenceId = React.useMemo(() => `GT${Math.floor(1000000 + Math.random() * 9000000)}`, []);
@@ -122,7 +124,7 @@ export default function PdfGenerator() {
                 terminal: f.arrival?.terminal,
               },
               duration: f.duration || "0h 0m",
-              pnr: f.pnr || "A74C7Z",
+              pnr: booking.pnr || f.pnr || "A74C7Z",
               cabinClass: f.fareType || "Economy"
             }))
             : []
@@ -137,7 +139,7 @@ export default function PdfGenerator() {
             : []
           }
           bookingDetails={{
-            date: new Date().toLocaleDateString("en-GB", { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }),
+            date: booking.bookingDate || new Date().toLocaleDateString("en-GB", { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }),
             referenceId: referenceId
           }}
           gstDetails={{

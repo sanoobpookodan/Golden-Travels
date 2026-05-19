@@ -7,6 +7,7 @@ import { flightDetails, passengerDetails } from "@/constants/db";
 import { useFlightStore } from "@/store/useFlightStore";
 import { usePassengerStore } from "@/store/usePassengerStore";
 import FlightDetailsForm from "./FlightDetailsForm";
+import BookingDetailsForm from "./BookingDetailsForm";
 import FareDetailsForm from "./FareDetailsForm";
 import UploadFile from "./UploadFile";
 import { IS_DEV } from "@/constants/data";
@@ -37,7 +38,8 @@ export default function UploadPDFView() {
           <PassengerDetailsForm />
           <FlightDetailsForm />
         </div>
-        <div className="mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start mt-6">
+          <BookingDetailsForm />
           <FareDetailsForm />
         </div>
         
