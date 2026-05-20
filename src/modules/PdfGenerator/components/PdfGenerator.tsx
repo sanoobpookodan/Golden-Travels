@@ -41,6 +41,51 @@ export default function PdfGenerator() {
       const innerWidth = pageWidth - margin * 2;
       const headerGap = 4;
 
+      // Load watermark logo with low opacity
+      let watermark: { dataUrl: string; w: number; h: number; x: number; y: number } | null = null;
+      try {
+        const loadImg = (src: string) => {
+          return new Promise<{ dataUrl: string; width: number; height: number }>((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              const ctx = canvas.getContext("2d");
+              if (ctx) {
+                ctx.globalAlpha = 0.08; // subtle opacity for watermark
+                ctx.drawImage(img, 0, 0);
+                resolve({
+                  dataUrl: canvas.toDataURL("image/png"),
+                  width: img.width,
+                  height: img.height,
+                });
+              } else {
+                reject(new Error("Canvas context error"));
+              }
+            };
+            img.onerror = () => reject(new Error("Failed to load: " + src));
+            img.src = src;
+          });
+        };
+
+        let watermarkImg;
+        try {
+          watermarkImg = await loadImg(window.location.origin + "/assets/images/logo.png");
+        } catch {
+          // fallback to pdfLogo.jpeg
+          watermarkImg = await loadImg(window.location.origin + "/assets/images/pdfLogo.jpeg");
+        }
+
+        const w = 120; // standard width in mm
+        const h = w * (watermarkImg.height / watermarkImg.width);
+        const x = (pageWidth - w) / 2;
+        const y = (pageHeight - h) / 2;
+        watermark = { dataUrl: watermarkImg.dataUrl, w, h, x, y };
+      } catch (e) {
+        console.error("Watermark logo load failed, generating PDF without it.", e);
+      }
+
       // 2. Capture header once
       const headerImg = await domToPng(headerEl, { scale: 2 });
       const headerHeight = (headerEl.offsetHeight * innerWidth) / headerEl.offsetWidth;
@@ -83,6 +128,15 @@ export default function PdfGenerator() {
         const depDate = (flights[0]?.departure?.date || "").replace(/,/g, "").replace(/\s+/g, "_");
         return `${firstName}_and_${passengers.length - 1}_more${depDate ? "_" + depDate : ""}`;
       };
+
+      // Draw watermark on top of all pages
+      if (watermark) {
+        const totalPages = pdf.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          pdf.setPage(i);
+          pdf.addImage(watermark.dataUrl, "PNG", watermark.x, watermark.y, watermark.w, watermark.h);
+        }
+      }
 
       pdf.save(`${buildFilename()}.pdf`);
     } catch (error) {

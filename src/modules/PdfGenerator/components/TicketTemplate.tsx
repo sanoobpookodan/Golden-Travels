@@ -83,7 +83,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
             </div>
 
             <div style={{ textAlign: "right", fontSize: "13px", lineHeight: "1.6" }}>
-              <p style={{ margin: 0, fontWeight: "700", fontSize: "15px" }}>Golden Travels</p>
+              <p style={{ margin: 0, fontWeight: "700", fontSize: "15px" }}>GOLDEN TRAVELS</p>
               <p style={{ margin: 0, color: "#374151" }}>mkfahiz@gmail.com</p>
               <p style={{ margin: 0, color: "#374151" }}>+91 8089794927</p>
               <p style={{ margin: 0, color: "#374151" }}>MANJERI ROAD, KIZHISSERI, MALAPPURAM</p>
@@ -321,6 +321,39 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
             <li>Carry photo identification, you will need it as proof of identity while checking-in</li>
             <li>Use the airline PNR for all correspondence directly with the airline.</li>
           </ul>
+        </div>
+
+        {/* ── Thank you section ── */}
+        <div style={{ marginTop: "32px", textAlign: "center" }} data-pdf-section>
+          <div style={{
+            borderTop: "2px dashed #e5e7eb",
+            paddingTop: "24px",
+            marginTop: "10px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px"
+          }}>
+            <p style={{
+              margin: 0,
+              fontSize: "16px",
+              fontWeight: "700",
+              color: "#1e3a8a",
+              letterSpacing: "0.5px",
+              textTransform: "uppercase"
+            }}>
+              Thank you for choosing Golden Travels
+            </p>
+            <p style={{
+              margin: 0,
+              fontSize: "12px",
+              color: "#4b5563",
+              maxWidth: "500px",
+              lineHeight: "1.5"
+            }}>
+              We wish you a pleasant and safe journey. For support or queries regarding your booking, please reach out to us.
+            </p>
+          </div>
         </div>
 
       </div>

@@ -9,7 +9,6 @@ import { usePassengerStore } from "@/store/usePassengerStore";
 import FlightDetailsForm from "./FlightDetailsForm";
 import BookingDetailsForm from "./BookingDetailsForm";
 import FareDetailsForm from "./FareDetailsForm";
-import UploadFile from "./UploadFile";
 import { IS_DEV } from "@/constants/data";
 
 import PdfGenerator from "../../PdfGenerator/components/PdfGenerator";
@@ -30,9 +29,6 @@ export default function UploadPDFView() {
       <ComponentCard className="xl:col-span-3 sm:col-span-3" title={"PDFs Management"}>
         <div className="mb-6">
           <AIProcessing />
-        </div>
-        <div className="border-t pt-6">
-          <UploadFile />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start mt-6">
           <PassengerDetailsForm />
