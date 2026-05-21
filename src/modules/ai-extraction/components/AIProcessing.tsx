@@ -107,7 +107,6 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
         setFare({
           base: data.fare.base ?? "0.00",
           tax: data.fare.tax ?? "0.00",
-          misc: data.fare.misc ?? "0.00",
           total: data.fare.total ?? "0.00",
         });
       }

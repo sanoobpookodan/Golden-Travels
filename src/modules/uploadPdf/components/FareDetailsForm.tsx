@@ -11,15 +11,14 @@ export default function FareDetailsForm() {
   useEffect(() => {
     const base = parseFloat(fare.base?.toString().replace(/,/g, "")) || 0;
     const tax  = parseFloat(fare.tax?.toString().replace(/,/g, ""))  || 0;
-    const misc = parseFloat(fare.misc?.toString().replace(/,/g, "")) || 0;
-    const total = (base + tax + misc).toLocaleString("en-IN", { minimumFractionDigits: 2 });
+    const total = (base + tax).toLocaleString("en-IN", { minimumFractionDigits: 2 });
     
     if (total !== fare.total) {
       setFare({ ...fare, total });
     }
-  }, [fare.base, fare.tax, fare.misc]);
+  }, [fare.base, fare.tax]);
 
-  const handleChange = (field: "base" | "tax" | "misc" | "total", value: string) => {
+  const handleChange = (field: "base" | "tax" | "total", value: string) => {
     setFare({ ...fare, [field]: value });
   };
 
@@ -41,15 +40,6 @@ export default function FareDetailsForm() {
             placeholder="e.g. 1200.00"
             value={fare.tax}
             onChange={(e) => handleChange("tax", e.target.value)}
-          />
-        </div>
-
-        <div>
-          <Label>Misc Charges (INR)</Label>
-          <Input
-            placeholder="e.g. 200.00"
-            value={fare.misc}
-            onChange={(e) => handleChange("misc", e.target.value)}
           />
         </div>
 
@@ -76,7 +66,7 @@ export default function FareDetailsForm() {
 
       <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-lg flex items-center justify-between">
         <p className="text-xs text-blue-500 dark:text-blue-400">
-          Total = Base + Taxes + Misc — reflected in the generated PDF.
+          Total = Base + Taxes — reflected in the generated PDF.
         </p>
         <p className="text-sm text-blue-700 dark:text-blue-300 font-bold whitespace-nowrap ml-4">
           INR {fare.total || "0.00"}

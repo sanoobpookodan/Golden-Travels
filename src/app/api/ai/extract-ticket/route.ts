@@ -94,7 +94,6 @@ Schema:
   "fare": {
     "base": "Amount",
     "tax": "Amount",
-    "misc": "Amount",
     "total": "Amount"
   }
 }

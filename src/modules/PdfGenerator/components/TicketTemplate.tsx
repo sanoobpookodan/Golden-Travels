@@ -32,7 +32,6 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
     const defaultFareDetails = {
       base: "0.00",
       tax: "0.00",
-      misc: "0.00",
       total: "0.00",
     };
 
@@ -287,7 +286,6 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
             {[
               { label: "Base price",                                      value: resolvedFare.base },
               { label: "Airline taxes and fees",                          value: resolvedFare.tax  },
-              { label: "Meal / Seat / baggage / other Misc charges",      value: resolvedFare.misc },
             ].map(({ label, value }, i) => (
               <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0 8px" }}>
                 <span style={{ color: "#374151", fontWeight: "500" }}>{label}</span>
