@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef } from "react";
-import { domToPng } from "modern-screenshot";
+import { domToJpeg } from "modern-screenshot";
 import jsPDF from "jspdf";
 import TicketTemplate from "./TicketTemplate";
 import Button from "@/components/ui/button/Button";
@@ -33,6 +33,7 @@ export default function PdfGenerator() {
         orientation: "portrait",
         unit: "mm",
         format: "a4",
+        compress: true,
       });
 
       const pageWidth = 210;
@@ -87,7 +88,7 @@ export default function PdfGenerator() {
       }
 
       // 2. Capture header once
-      const headerImg = await domToPng(headerEl, { scale: 2 });
+      const headerImg = await domToJpeg(headerEl, { scale: 2, quality: 0.75, backgroundColor: '#ffffff' });
       const headerHeight = (headerEl.offsetHeight * innerWidth) / headerEl.offsetWidth;
 
       let currentY = margin;
@@ -95,17 +96,17 @@ export default function PdfGenerator() {
 
       const addNewPage = () => {
         pdf.addPage();
-        pdf.addImage(headerImg, "PNG", margin, margin, innerWidth, headerHeight);
+        pdf.addImage(headerImg, "JPEG", margin, margin, innerWidth, headerHeight);
         currentY = margin + headerHeight + headerGap;
       };
 
       // Start first page with header
-      pdf.addImage(headerImg, "PNG", margin, margin, innerWidth, headerHeight);
+      pdf.addImage(headerImg, "JPEG", margin, margin, innerWidth, headerHeight);
       currentY = margin + headerHeight + headerGap;
 
       // 3. Capture and place each section
       for (const section of sections) {
-        const sectionImg = await domToPng(section, { scale: 2 });
+        const sectionImg = await domToJpeg(section, { scale: 2, quality: 0.75, backgroundColor: '#ffffff' });
         const sectionHeight = (section.offsetHeight * innerWidth) / section.offsetWidth;
 
         // Check if section fits on current page. 
@@ -115,7 +116,7 @@ export default function PdfGenerator() {
           addNewPage();
         }
 
-        pdf.addImage(sectionImg, "PNG", margin, currentY, innerWidth, sectionHeight);
+        pdf.addImage(sectionImg, "JPEG", margin, currentY, innerWidth, sectionHeight);
         currentY += sectionHeight + sectionGap;
       }
 
