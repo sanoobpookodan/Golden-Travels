@@ -58,7 +58,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
       >
 
         {/* ── REPEATABLE HEADER — captured separately for multi-page PDF ── */}
-        <div data-pdf-header>
+        <div data-pdf-header style={{ width: "780px", boxSizing: "border-box" }}>
 
           {/* ── Centered E-Ticket heading ── */}
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -85,8 +85,8 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
               <p style={{ margin: 0, fontWeight: "700", fontSize: "15px" }}>GOLDEN TRAVELS</p>
               <p style={{ margin: 0, color: "#374151" }}>mkfahiz@gmail.com</p>
               <p style={{ margin: 0, color: "#374151" }}>+91 8089794927</p>
-              <p style={{ margin: 0, color: "#374151" }}>MANJERI ROAD, KIZHISSERI, MALAPPURAM</p>
-              <p style={{ margin: 0, color: "#374151" }}>Malappuram-673641</p>
+              <p style={{ margin: 0, color: "#374151", whiteSpace: "nowrap" }}>MANJERI ROAD, KIZHISSERI</p>
+              <p style={{ margin: 0, color: "#374151", whiteSpace: "nowrap" }}>MALAPPURAM - 673641</p>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
             fontSize: "13px", borderBottom: "1px solid #e5e7eb",
             paddingBottom: "12px", marginBottom: "24px",
           }}>
-            <p style={{ margin: 0 }}>
+            <p style={{ margin: 0, whiteSpace: "nowrap" }}>
               <span style={{ color: "#374151" }}>Booking date </span>
               <strong>{resolvedBooking.date}</strong>
             </p>
@@ -106,7 +106,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
 
         {/* ── Flights ── */}
         {resolvedFlights.map((flight, idx) => (
-          <div key={idx} style={{ marginBottom: "28px" }} data-pdf-section>
+          <div key={idx} style={{ marginBottom: "28px", width: "780px", boxSizing: "border-box" }} data-pdf-section>
 
             {/* Sector header bar */}
             <div style={{
@@ -118,8 +118,8 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
               fontSize: "14px", fontWeight: "700",
               marginBottom: "16px",
             }}>
-              <span>{flight.from} {flight.fromCode} - {flight.to} {flight.toCode}</span>
-              <span>Airline PNR {flight.pnr}</span>
+              <span style={{ whiteSpace: "nowrap" }}>{flight.from} {flight.fromCode} - {flight.to} {flight.toCode}</span>
+              <span style={{ whiteSpace: "nowrap" }}>Airline PNR {flight.pnr}</span>
             </div>
 
             {/* Flight detail columns */}
@@ -170,7 +170,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
         ))}
 
         {/* ── Passenger Details ── */}
-        <div style={{ marginBottom: "28px" }} data-pdf-section>
+          <div style={{ marginBottom: "28px", width: "780px", boxSizing: "border-box" }} data-pdf-section>
           <div style={{
             backgroundColor: "#e5e7eb", padding: "8px 12px",
             fontSize: "14px", fontWeight: "700", marginBottom: "8px",
@@ -247,7 +247,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
         </div>
 
         {/* ── GST Details ── */}
-        <div style={{ marginBottom: "28px" }} data-pdf-section>
+          <div style={{ marginBottom: "28px", width: "780px", boxSizing: "border-box" }} data-pdf-section>
           <div style={{
             backgroundColor: "#e5e7eb", padding: "8px 12px",
             fontSize: "14px", fontWeight: "700", marginBottom: "8px",
@@ -275,7 +275,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
         </div>
 
         {/* ── Fare Details ── */}
-        <div style={{ marginBottom: "28px" }} data-pdf-section>
+          <div style={{ marginBottom: "28px", width: "780px", boxSizing: "border-box" }} data-pdf-section>
           <div style={{
             backgroundColor: "#e5e7eb", padding: "8px 12px",
             fontSize: "14px", fontWeight: "700", marginBottom: "10px",
@@ -288,16 +288,16 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
               { label: "Airline taxes and fees",                          value: resolvedFare.tax  },
             ].map(({ label, value }, i) => (
               <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "0 8px" }}>
-                <span style={{ color: "#374151", fontWeight: "500" }}>{label}</span>
-                <span style={{ fontWeight: "700" }}>INR {value}</span>
+                <span style={{ color: "#374151", fontWeight: "500", whiteSpace: "nowrap" }}>{label}</span>
+                <span style={{ fontWeight: "700", whiteSpace: "nowrap" }}>INR {value}</span>
               </div>
             ))}
             <div style={{
               display: "flex", justifyContent: "space-between",
               padding: "10px 8px 0", borderTop: "1px solid #e5e7eb", marginTop: "4px",
             }}>
-              <span style={{ color: "#2563eb", fontWeight: "700" }}>Total Amount</span>
-              <span style={{ color: "#2563eb", fontWeight: "700", fontSize: "16px", fontFamily: "monospace" }}>
+              <span style={{ color: "#2563eb", fontWeight: "700", whiteSpace: "nowrap" }}>Total Amount</span>
+              <span style={{ color: "#2563eb", fontWeight: "700", fontSize: "16px", fontFamily: "monospace", whiteSpace: "nowrap" }}>
                 INR {resolvedFare.total}
               </span>
             </div>
@@ -305,7 +305,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
         </div>
 
         {/* ── Important Information ── */}
-        <div data-pdf-section>
+        <div style={{ width: "780px", boxSizing: "border-box" }} data-pdf-section>
           <div style={{
             backgroundColor: "#e5e7eb", padding: "8px 12px",
             fontSize: "14px", fontWeight: "700", marginBottom: "10px",
@@ -322,7 +322,7 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
         </div>
 
         {/* ── Thank you section ── */}
-        <div style={{ marginTop: "32px", textAlign: "center" }} data-pdf-section>
+        <div style={{ marginTop: "32px", textAlign: "center", width: "780px", boxSizing: "border-box" }} data-pdf-section>
           <div style={{
             borderTop: "2px dashed #e5e7eb",
             paddingTop: "24px",
@@ -338,7 +338,8 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
               fontWeight: "700",
               color: "#1e3a8a",
               letterSpacing: "0.5px",
-              textTransform: "uppercase"
+              textTransform: "uppercase",
+              whiteSpace: "nowrap"
             }}>
               Thank you for choosing Golden Travels
             </p>

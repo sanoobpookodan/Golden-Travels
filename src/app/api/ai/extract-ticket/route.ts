@@ -35,9 +35,12 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(bytes);
     console.log(`Sending PDF to AI... Size: ${(buffer.length / 1024).toFixed(2)} KB`);
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
-    });
+    const modelsList = [
+      "gemini-2.5-flash",
+      "gemini-2.5-flash-lite",
+      "gemini-3-flash",
+      "gemini-3.5-flash"
+    ];
 
     const prompt = `
 Extract structured flight booking data from this PDF ticket.
@@ -47,7 +50,7 @@ Return ONLY valid JSON.
 Schema:
 
 {
-  "bookingDate": "Booking date/time (e.g. Day, DD Mon, YYYY or similar issue date found in the ticket)",
+  "bookingDate": "Booking date/time EXACTLY as written in the ticket. If the ticket doesn't list the day of the week (e.g. Monday, Tue), DO NOT guess, calculate or add it. Just extract the raw date/time string from the ticket.",
   "pnr": "Airline PNR / Booking Reference / Record Locator (usually a 6-character alphanumeric code like AM48QZ or similar)",
   "passengers": [
     {
@@ -71,14 +74,14 @@ Schema:
 
       "departure": {
         "time": "HH:MM",
-        "date": "Day, DD Mon, YYYY",
+        "date": "Departure date EXACTLY as written in the ticket. Do NOT guess, calculate, or add the day of the week if it is not explicitly written in the ticket.",
         "airport": "Airport name",
         "terminal": "Terminal"
       },
 
       "arrival": {
         "time": "HH:MM",
-        "date": "Day, DD Mon, YYYY",
+        "date": "Arrival date EXACTLY as written in the ticket. Do NOT guess, calculate, or add the day of the week if it is not explicitly written in the ticket.",
         "airport": "Airport name",
         "terminal": "Terminal"
       },
@@ -99,15 +102,35 @@ Schema:
 }
 `;
 
-    const result = await model.generateContent([
-      prompt,
-      {
-        inlineData: {
-          data: buffer.toString("base64"),
-          mimeType: "application/pdf",
-        },
-      },
-    ]);
+    let result = null;
+    let lastError = null;
+    let selectedModelName = "";
+
+    for (const modelName of modelsList) {
+      try {
+        console.log(`Attempting ticket extraction using model: ${modelName}`);
+        const model = genAI.getGenerativeModel({ model: modelName });
+        result = await model.generateContent([
+          prompt,
+          {
+            inlineData: {
+              data: buffer.toString("base64"),
+              mimeType: "application/pdf",
+            },
+          },
+        ]);
+        selectedModelName = modelName;
+        console.log(`Successfully extracted ticket data using model: ${selectedModelName}`);
+        break;
+      } catch (error: any) {
+        console.warn(`Model ${modelName} failed or limit hit:`, error.message || error);
+        lastError = error;
+      }
+    }
+
+    if (!result) {
+      throw new Error(`All models in the chain failed. Last error: ${lastError?.message || lastError}`);
+    }
 
     const responseText = result.response.text();
 

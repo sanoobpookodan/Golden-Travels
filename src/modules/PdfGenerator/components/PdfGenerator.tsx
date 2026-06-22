@@ -88,7 +88,7 @@ export default function PdfGenerator() {
       }
 
       // 2. Capture header once
-      const headerImg = await domToJpeg(headerEl, { scale: 2, quality: 0.75, backgroundColor: '#ffffff' });
+      const headerImg = await domToJpeg(headerEl, { scale: 2, quality: 0.75, backgroundColor: '#ffffff', width: 780 });
       const headerHeight = (headerEl.offsetHeight * innerWidth) / headerEl.offsetWidth;
 
       let currentY = margin;
@@ -106,7 +106,7 @@ export default function PdfGenerator() {
 
       // 3. Capture and place each section
       for (const section of sections) {
-        const sectionImg = await domToJpeg(section, { scale: 2, quality: 0.75, backgroundColor: '#ffffff' });
+        const sectionImg = await domToJpeg(section, { scale: 2, quality: 0.75, backgroundColor: '#ffffff', width: 780 });
         const sectionHeight = (section.offsetHeight * innerWidth) / section.offsetWidth;
 
         // Check if section fits on current page. 
@@ -157,7 +157,7 @@ export default function PdfGenerator() {
         </Button>
       </div>
 
-      <div style={{ position: "fixed", left: "-9999px", top: "-9999px", zIndex: -1, pointerEvents: "none" }}>
+      <div style={{ position: "absolute", left: "-9999px", top: "0px", width: "860px", zIndex: -1, pointerEvents: "none" }}>
         <TicketTemplate
           ref={printRef}
           flights={flights.length > 0
