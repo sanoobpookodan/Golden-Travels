@@ -25,6 +25,7 @@ export interface FlightDetails {
   aircraft?: string;
   airline?: string;
   flightNumber?: string;
+  pnr?: string;
 
   fareType?: string;
   baggage?: {
@@ -61,6 +62,7 @@ export const useFlightStore = create<FlightStore>((set) => ({
           aircraft: "",
           airline: "",
           flightNumber: "",
+          pnr: "",
           fareType: "",
           baggage: { checked: "" },
           status: "",

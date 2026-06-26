@@ -179,7 +179,7 @@ export default function PdfGenerator() {
                 terminal: f.arrival?.terminal,
               },
               duration: f.duration || "0h 0m",
-              pnr: booking.pnr || f.pnr || "",
+              pnr: f.pnr || booking.pnr || "",
               cabinClass: f.fareType || "Economy"
             }))
             : []

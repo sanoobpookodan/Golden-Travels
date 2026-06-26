@@ -55,6 +55,17 @@ export default function FlightDetailsForm() {
 
             <div className="xl:col-span-1 ">
               <div>
+                <Label>Airline PNR</Label>
+                <Input
+                  placeholder="Enter PNR"
+                  value={item?.pnr || ""}
+                  onChange={(e) => updateFlight(item.id, { pnr: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="xl:col-span-1 ">
+              <div>
                 <Label>Baggage</Label>
                 <Input
                   placeholder="Enter Baggage"
