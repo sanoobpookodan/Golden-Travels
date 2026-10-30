@@ -288,8 +288,9 @@ Schema:
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
 
     if (!jsonMatch) {
+      console.error("AI extraction response did not contain a JSON object.");
       return NextResponse.json(
-        { error: "Invalid JSON returned by AI", raw: responseText },
+        { error: "Ticket extraction failed. Check the server logs for details." },
         { status: 500 }
       );
     }
@@ -302,7 +303,7 @@ Schema:
     console.error("AI Extraction Error:", error);
 
     return NextResponse.json(
-      { error: error.message || "Failed to extract data" },
+      { error: "Ticket extraction failed. Check the server logs for details." },
       { status: 500 }
     );
   }

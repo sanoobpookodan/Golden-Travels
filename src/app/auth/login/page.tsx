@@ -7,9 +7,11 @@ import { Outfit } from "next/font/google";
 export const metadata = {
   title: "Login",
 };
+
 const outfit = Outfit({
   subsets: ["latin"],
 });
+
 export default function LoginPage() {
   return <SignInForm />;
 }

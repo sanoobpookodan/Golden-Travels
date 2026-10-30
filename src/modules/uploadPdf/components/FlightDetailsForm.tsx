@@ -104,6 +104,20 @@ export default function FlightDetailsForm() {
             </div>
             <div className="xl:col-span-1">
               <div>
+                <Label>Departure Terminal</Label>
+                <Input
+                  placeholder="Enter departure terminal"
+                  value={item?.departure?.terminal || ""}
+                  onChange={(e) =>
+                    updateFlight(item.id, {
+                      departure: { ...(item.departure || {}), terminal: e.target.value },
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="xl:col-span-1">
+              <div>
                 <Label>Arrival Date</Label>
                 <Input
                   placeholder="Enter arrival date"
@@ -111,6 +125,20 @@ export default function FlightDetailsForm() {
                   onChange={(e) =>
                     updateFlight(item.id, {
                       arrival: { ...(item.arrival || {}), date: e.target.value },
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="xl:col-span-1">
+              <div>
+                <Label>Arrival Terminal</Label>
+                <Input
+                  placeholder="Enter arrival terminal"
+                  value={item?.arrival?.terminal || ""}
+                  onChange={(e) =>
+                    updateFlight(item.id, {
+                      arrival: { ...(item.arrival || {}), terminal: e.target.value },
                     })
                   }
                 />

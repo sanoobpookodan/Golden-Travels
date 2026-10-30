@@ -140,14 +140,20 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
                 <p style={{ margin: "0 0 4px", color: "#374151", fontSize: "12px", fontWeight: "600" }}>Departure</p>
                 <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "15px" }}>{flight.from} {flight.fromCode}</p>
                 <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "12px" }}>{flight.departure.date} {flight.departure.time}</p>
-                <p style={{ margin: 0, color: "#374151", fontSize: "11px" }}>{flight.departure.airport} {flight.departure.terminal}</p>
+                <p style={{ margin: 0, color: "#374151", fontSize: "11px" }}>{flight.departure.airport}</p>
+                {flight.departure.terminal && (
+                  <p style={{ margin: "2px 0 0", color: "#374151", fontSize: "11px" }}>Terminal: {flight.departure.terminal}</p>
+                )}
               </div>
 
               <div>
                 <p style={{ margin: "0 0 4px", color: "#374151", fontSize: "12px", fontWeight: "600" }}>Arrival</p>
                 <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "15px" }}>{flight.to} {flight.toCode}</p>
                 <p style={{ margin: "0 0 3px", fontWeight: "700", fontSize: "12px" }}>{flight.arrival.date} {flight.arrival.time}</p>
-                <p style={{ margin: 0, color: "#374151", fontSize: "11px" }}>{flight.arrival.airport} {flight.arrival.terminal}</p>
+                <p style={{ margin: 0, color: "#374151", fontSize: "11px" }}>{flight.arrival.airport}</p>
+                {flight.arrival.terminal && (
+                  <p style={{ margin: "2px 0 0", color: "#374151", fontSize: "11px" }}>Terminal: {flight.arrival.terminal}</p>
+                )}
               </div>
 
               <div>

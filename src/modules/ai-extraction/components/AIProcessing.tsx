@@ -12,11 +12,12 @@ interface AIProcessingProps {
 
 function getErrorMessage(status?: number): string {
   const statusMessages: Record<number, string> = {
-    401: "Authentication failed. Invalid API configuration.",
-    404: "AI service configuration error. Model not found.",
-    429: "Request limit exceeded. Please wait a moment and try again.",
-    500: "Internal server error while processing your request.",
-    503: "AI service is currently busy. Please try again in a few seconds.",
+    400: "The selected file could not be processed. Please check it and try again.",
+    401: "Ticket extraction is unavailable. Please contact your administrator.",
+    404: "Ticket extraction is temporarily unavailable. Please try again later.",
+    429: "Ticket extraction is temporarily busy. Please wait a moment and try again.",
+    500: "We couldn't extract the ticket details. Please try again later or contact your administrator.",
+    503: "Ticket extraction is temporarily unavailable. Please try again in a few minutes.",
   };
   if (status && statusMessages[status]) return statusMessages[status];
   return "Something went wrong while processing the PDF.";
@@ -80,11 +81,13 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
               date: f.departure?.date ?? "",
               time: f.departure?.time ?? "",
               airport: f.departure?.airport ?? "",
+              terminal: f.departure?.terminal ?? "",
             },
             arrival: {
               date: f.arrival?.date ?? "",
               time: f.arrival?.time ?? "",
               airport: f.arrival?.airport ?? "",
+              terminal: f.arrival?.terminal ?? "",
             },
           }))
         );
