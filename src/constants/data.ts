@@ -1,4 +1,4 @@
-export const IS_DEV = true;
+export const IS_DEV = false;
 
 export const PAGINATION_OPTIONS = [5, 10, 20, 50, 100];
 
@@ -8,7 +8,8 @@ export const about = {
   title: "Golden Traveler",
   email: "mkfahiz@gmail.com",
   phone: "+91 8089794927",
-  address: "Building No 16/580c,\nManjeri Road,\nKizhisseri, \nMalappuram District,\nKerala 673641",
+  address:
+    "Building No 16/580c,\nManjeri Road,\nKizhisseri, \nMalappuram District,\nKerala 673641",
 
   image: "/assets/images/logo-light.png",
 };
@@ -24,9 +25,8 @@ export const important_information = [
 export const gst_detail = {
   name: "GOLDEN TRAVELS",
   gst: "32GSDPM8932C1ZT",
-  address: "Building No 16/580c,\nManjeri Road,\nKizhisseri, \nMalappuram District,\nKerala 673641",
+  address:
+    "Building No 16/580c,\nManjeri Road,\nKizhisseri, \nMalappuram District,\nKerala 673641",
   email: "mkfahiz@gmail.com",
   phone: "+91 8089794927",
 };
-
-
