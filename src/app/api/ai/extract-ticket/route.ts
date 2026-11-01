@@ -161,6 +161,19 @@ Never copy the first PNR to every flight.
 Each flight MUST receive ONLY the PNR printed in its own section.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONNECTION WAITING TIME RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For each flight, return "connectionWaitAfter" as the waiting/layover duration before the next flight in the same connected itinerary.
+
+• Only treat flights as connected when this flight's arrival airport/code matches the next flight's departure airport/code.
+• Use a layover duration explicitly printed in the ticket when available.
+• If the ticket does not print the duration, calculate it only when both arrival and next departure dates and local times are available at the shared connection airport.
+• Return a concise duration such as "2h 30m".
+• Return an empty string when there is no connecting flight, the flights are not a continuous connection, or the duration cannot be determined reliably. Do not guess.
+• The last flight of each itinerary must have an empty "connectionWaitAfter" value.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 DATE RULES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -242,7 +255,8 @@ Schema:
       },
       "duration": "",
       "pnr": "",
-      "cabinClass": ""
+      "cabinClass": "",
+      "connectionWaitAfter": ""
     }
   ],
   "fare": {

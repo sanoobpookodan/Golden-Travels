@@ -172,6 +172,19 @@ const TicketTemplate = React.forwardRef<HTMLDivElement, TicketTemplateProps>(
                 <p style={{ margin: 0, fontWeight: "700" }}>{flight.cabinClass}</p>
               </div>
             </div>
+
+            {idx < resolvedFlights.length - 1 && flight.connectionWaitAfter && (
+              <div style={{
+                margin: "16px 4px 0",
+                padding: "8px 12px",
+                borderLeft: "3px solid #2563eb",
+                backgroundColor: "#eff6ff",
+                color: "#1e3a8a",
+                fontSize: "12px",
+              }}>
+                <strong>Connection layover before the next flight:</strong> {flight.connectionWaitAfter}
+              </div>
+            )}
           </div>
         ))}
 

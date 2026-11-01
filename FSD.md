@@ -2,7 +2,7 @@
 
 **Document status:** As-is specification based on repository inspection  
 **Application:** Golden Travels ticket processing and e-ticket preparation web app  
-**Date:** 30 October 2026
+**Date:** 1 November 2026
 
 ## 1. Purpose
 
@@ -58,7 +58,7 @@ The authenticated application shell contains a sidebar with Upload PDF, About, G
 3. The browser posts the file as multipart form data to `POST /api/ai/extract-ticket`.
 4. The server sends the PDF to Google Gemini using the configured `GOOGLE_GENERATIVE_AI_API_KEY`. It tries configured models in sequence until one succeeds and asks the model for structured ticket data.
 5. The response is parsed as JSON and returned to the browser. Flight rows, passenger rows, booking reference/date, and fare are placed into client-side Zustand stores.
-6. Staff reviews and edits the populated fields, including departure and arrival terminal for each flight. They may add/remove passenger or flight rows and correct values manually. Terminal values not printed on the ticket remain blank and are not inferred.
+6. Staff reviews and edits the populated fields, including departure and arrival terminal and connection waiting time after each flight. They may add/remove passenger or flight rows and correct values manually. Terminal or connection duration values that cannot be determined from the ticket remain blank and are not inferred.
 7. The fare total is recalculated from base fare plus taxes when either component changes. The total field remains editable in the current UI.
 8. Staff selects **Download E-Ticket (PDF)**. The app renders the ticket template to images, places its sections in an A4 PDF, applies a logo watermark when available, and downloads the result in the browser.
 
@@ -81,7 +81,7 @@ If extraction fails, the upload component shows an error and offers retry for th
 - **F-08** The system shall reject files that are not PDFs and files larger than 15 MB, with user-visible feedback.
 - **F-09** The system shall allow the selected PDF to be previewed in an embedded viewer and allow the preview to be hidden.
 - **F-10** The system shall submit the selected PDF to the server extraction endpoint and show a processing state while awaiting a response.
-- **F-11** The extraction service shall request these logical fields where present: booking date and PNR; passenger name, ticket number, baggage and hand baggage; flight airline, number, origin/destination, departure/arrival date, time, airport/terminal, duration, PNR and cabin class; and fare base, tax, and total.
+- **F-11** The extraction service shall request these logical fields where present: booking date and PNR; passenger name, ticket number, baggage and hand baggage; flight airline, number, origin/destination, departure/arrival date, time, airport/terminal, duration, PNR, cabin class, and connection waiting time after a flight; and fare base, tax, and total.
 - **F-12** The system shall populate the editable forms from returned extraction data, assigning client-side row identifiers as needed.
 - **F-13** The system shall show a useful error and allow retry after network, configuration, provider, or parse failures.
 - **F-14** If the response omits booking date, the client currently uses the current date as a fallback; if booking PNR is omitted, it falls back to the first flight PNR and then an empty value.
@@ -90,9 +90,9 @@ If extraction fails, the upload component shows an error and offers retry for th
 
 - **F-15** The system shall display passenger rows with name, ticket number, check-in baggage, and hand baggage fields.
 - **F-16** The system shall allow staff to add and remove passenger rows and edit values in existing rows.
-- **F-17** The system shall display flight rows with origin, destination, duration, flight number, PNR, checked baggage, departure date/time/terminal, and arrival date/time/terminal.
-- **F-18** The system shall allow staff to add and remove flight rows and edit values in existing rows, including departure and arrival terminal values.
-- **F-19** The system shall preserve extracted departure and arrival terminal values when mapping AI results into editable flight records. If no terminal is present in the source ticket, the value shall be blank; the system shall not infer one.
+- **F-17** The system shall display flight rows with origin, destination, duration, flight number, PNR, checked baggage, departure date/time/terminal, arrival date/time/terminal, and connection waiting time after the flight.
+- **F-18** The system shall allow staff to add and remove flight rows and edit values in existing rows, including departure/arrival terminal values and connection waiting time.
+- **F-19** The system shall preserve extracted departure/arrival terminal values and connection waiting time when mapping AI results into editable flight records. If no terminal is present or a connection duration cannot be determined reliably, the corresponding value shall be blank; the system shall not infer it.
 - **F-20** The system shall allow staff to edit booking PNR and booking date.
 - **F-21** The system shall allow staff to edit base fare, taxes/fees, and total in INR. When base or taxes change, total shall be recalculated as their sum.
 - **F-22** The working data shall remain available across the workflow while the page remains loaded. Current state is held in browser memory and is not saved to a server or durable browser store.
@@ -101,7 +101,7 @@ If extraction fails, the upload component shows an error and offers retry for th
 
 - **F-23** The system shall generate an A4 portrait PDF from the current passenger, flight, booking, and fare data.
 - **F-24** The generated document shall include the Golden Travels header/branding, itinerary, passenger/ticket details, company GST details, fare breakdown, important information, and closing message.
-- **F-25** For each flight, the generated document shall display departure and arrival terminal labels and values when supplied. Blank terminal values shall not produce placeholder text.
+- **F-25** For each flight, the generated document shall display departure and arrival terminal labels and values when supplied. When a flight has a subsequent connected leg and a waiting time is available, the document shall display that duration between the flight and its connection. Blank values shall not produce placeholder text.
 - **F-26** The system shall repeat the ticket header on additional pages and place content sections on subsequent pages when needed.
 - **F-27** The system shall attempt to apply a low-opacity logo watermark, with a fallback logo asset.
 - **F-28** The system shall download the generated PDF locally with a filename derived from passenger and/or flight information.
@@ -184,8 +184,8 @@ These are implementation observations, not assumptions about desired future beha
 1. An authorized operator can sign in and reach the PDF management page.
 2. A valid PDF no larger than 15 MB can be selected, previewed, and submitted for extraction.
 3. Successful extraction populates booking, passenger, flight, and fare forms; failed extraction displays an error and supports retry.
-4. The operator can correct extracted fields, including departure and arrival terminals, add or remove passenger/flight rows, and see fare total update from base plus taxes.
-5. The operator can download a readable A4 e-ticket PDF containing the current data and company/GST/travel information; each populated terminal is labeled beside its corresponding airport.
+4. The operator can correct extracted fields, including departure and arrival terminals and connection waiting times, add or remove passenger/flight rows, and see fare total update from base plus taxes.
+5. The operator can download a readable A4 e-ticket PDF containing the current data and company/GST/travel information; populated terminals are labeled beside their airports, and connection waiting times appear between connected flight legs.
 6. About, GST Details, and Information pages show the configured static reference data.
 
 ---

@@ -77,6 +77,7 @@ export default function AIProcessing({ onSuccess }: AIProcessingProps) {
             to: f.to ?? "",
             airline: f.airline ?? "",
             flightNumber: f.flightNumber ?? "",
+            connectionWaitAfter: f.connectionWaitAfter ?? "",
             departure: {
               date: f.departure?.date ?? "",
               time: f.departure?.time ?? "",

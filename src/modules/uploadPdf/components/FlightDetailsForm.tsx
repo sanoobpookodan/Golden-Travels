@@ -76,6 +76,16 @@ export default function FlightDetailsForm() {
             </div>
             <div className="xl:col-span-1">
               <div>
+                <Label>Layover Time After This Flight</Label>
+                <Input
+                  placeholder="e.g. 2h 30m"
+                  value={item?.connectionWaitAfter || ""}
+                  onChange={(e) => updateFlight(item.id, { connectionWaitAfter: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="xl:col-span-1">
+              <div>
                 <Label>Departure Date</Label>
                 <Input
                   placeholder="Enter departure date"

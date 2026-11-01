@@ -179,6 +179,7 @@ export default function PdfGenerator() {
                 terminal: f.arrival?.terminal,
               },
               duration: f.duration || "0h 0m",
+              connectionWaitAfter: f.connectionWaitAfter || "",
               pnr: f.pnr || booking.pnr || "",
               cabinClass: f.fareType || "Economy"
             }))
